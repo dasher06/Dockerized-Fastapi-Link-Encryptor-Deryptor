@@ -6,47 +6,6 @@ from email.mime.multipart import MIMEMultipart
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 from cryptography.fernet import Fernet
-from flask import Flask, request, render_template
-
-app = Flask(__name__)
-
-@app.route('/')
-def oauth2callback():
-    message = "✅ OAuth Redirect Received at / — You can close this tab now."
-    print(message)
-    return message
-
-@app.route('/decrypt_link', methods=['GET', 'POST'])
-def decrypt_link():
-    error = None
-    decrypted = None
-    encrypted = request.form.get('encrypted') if request.method == 'POST' else request.args.get('encrypted', '')
-
-    if request.method == 'POST':
-        key = request.form.get('key')
-        if not key or len(key) != 10 or not key.isdigit():
-            error = 'Invalid key: must be 10 digits'
-        else:
-            try:
-                custom_key = key.ljust(32, '0').encode()
-                fernet = Fernet(base64.urlsafe_b64encode(custom_key))
-                decrypted = fernet.decrypt(encrypted.encode()).decode()
-            except Exception as e:
-                error = f'Decryption failed: {str(e)}'
-
-    print("encrypted:", encrypted)
-    print("decrypted:", decrypted)
-    print("error:", error)
-
-    try:
-        return render_template('decrypt_link.html', encrypted=encrypted, decrypted=decrypted, error=error)
-    except Exception as e:
-        print("Template rendering failed:", e)
-        return f"Error: {str(e)}", 500
-
-@app.route("/status")
-def home():
-    return "Flask is working!"
 
 if __name__ == "__main__":
     # 1. OAuth & Drive setup
@@ -61,6 +20,7 @@ if __name__ == "__main__":
     gauth.settings_file = settings_file_path
     gauth.LoadClientConfigFile(settings_file_path)
     gauth.LocalWebserverAuth()
+    print("✅ Authentication complete")
 
     drive = GoogleDrive(gauth)
 
@@ -92,10 +52,14 @@ if __name__ == "__main__":
     print(f'Encrypted link: {encrypted_link}')
     print(f'Decryption key: {custom_key_input}')
 
-    cloud_run_url = "https://email-link-encryption-1068809376566.us-central1.run.app"
-    decryption_page_url = f"{cloud_run_url}/decrypt_link?encrypted={encrypted_link}"
+    # ========== HARD-CODED Cloud Run URL ==========
+
+    base_url = "https://fastapi-docker-decryptor-1068809376566.us-central1.run.app"
+    decryption_page_url = f"{base_url}/decrypt_link?encrypted={encrypted_link}"
+
     print(f"\nSend this link to decrypt the file:\n{decryption_page_url}")
 
+    # ========== EMAIL SENDING ==========
     sender_email = "trinabshan06@gmail.com"
     receiver_email = "trinabtime@gmail.com"
     password = "yhcq gspr pnal rlfu"  # App Password
@@ -108,28 +72,23 @@ if __name__ == "__main__":
     text = f"""
 Hello Kiruba mama,
 
-I’ve created an encrypted Google Drive file link and deployed a secure decryption service on Google Cloud Platform (GCP).
+I have created an Encrypted Google Drive file link that is now accessible through a secure decryption interface built with FastAPI using Google Cloud Run.
 
-To view the file,
-
-Open the following secure decryption page in your browser by clicking the link below:
+To view the file, please use the following details:
 
 🔓 Decryption Page:
 {decryption_page_url}
 
-When prompted, enter the decryption key below:
 🔐 Decryption Key: {custom_key_input}
+Note: This key is a numeric representation of the word “Sorry.”
 
-The decryption key is the number code for the word "Sorry"
+The GitHub link repository for the project:
 
-Once the key is entered, the page will decrypt the original Google Drive link and allow you to access the file directly.
+https://github.com/dasher06/Secure_Link_Decryptor_FastAPI
 
-I have also updated the github repository with the latest code for this project. You can find it here:
-https://github.com/dasher06/Secure_Gdrive_File
+If you find any issues, please let me know mama.
 
-Let me know if you face any issues in the process mama.
-
-Thank you,
+Sincerely,
 Trinab Shan
 """
     part = MIMEText(text, "plain")
@@ -142,7 +101,6 @@ Trinab Shan
     except Exception as e:
         print(f"An error occurred while sending the email: {e}")
 
-    # 2. Show local URL
-    port = int(os.environ.get("PORT", 8080))
-    print(f"\n🔗 Flask app running locally at: http://127.0.0.1:{port}/decrypt_link?encrypted={encrypted_link}")
-    app.run(host="0.0.0.0", port=port)
+    # Show link for manual testing (again)
+    print(f"\n🔗 Open this URL in your browser to decrypt manually:")
+    print(decryption_page_url)

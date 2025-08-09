@@ -2,16 +2,17 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-
-# Virtual environments
+*.db
+*.sqlite3
+*.log
+*.env
 venv/
 myvenv/
-
-# Environment & secrets
 .env
-client_secrets.json
-credentials.json
-
-# macOS & IDE-specific
-.DS_Store
+.idea/
 .vscode/
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+run_all.py
