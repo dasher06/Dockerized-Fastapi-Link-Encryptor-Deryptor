@@ -220,27 +220,29 @@ This approach has proven to be the most **effective**. The server is live 24/7, 
 
 ## What's in the Project
 
-- `decrypt_api.py`: The FastAPI application for link decryption
-- `requirements.txt`: Python packages needed to run the app
-- `templates/decrypt_link.html`: The form where users paste their encrypted link and key
-- `Dockerfile`: Helps in building the app if needed (used by Cloud Build)
-- `.dockerignore`: Prevents unnecessary files from going into the Docker image
-- `.gitignore`: Keeps sensitive or unnecessary files out of version control
-
+- `decrypt_api.py` – The FastAPI application that handles link decryption.
+- `Encrypted_Link.py` – Script for encrypting Google Drive links and generating secure share URLs.
+- `requirements.txt` – Python packages needed to run the application.
+- `templates/decrypt_link.html` – HTML template for the decryption form.
+- `Dockerfile` – Instructions for building the application into a Docker image.
+- `.dockerignore` – Specifies files and folders to exclude from the Docker image.
+- `.gitignore` – Keeps sensitive or unnecessary files out of version control.
+- `README.md` – Documentation with setup, usage, and deployment instructions.
+  
 ---
 
 ## Technologies Used
 
-- Python 3 (Core programming language)
-- FastAPI (Modern, fast web framework for API development)
-- Cryptography (Fernet symmetric encryption for secure link encryption/decryption)
-- Jinja2 (Template engine for rendering HTML pages)
-- Uvicorn (ASGI server for running FastAPI locally and in production)
-- Google OAuth 2.0 (Authentication and authorization for Google Drive API access)
-- Google Drive API (To validate and interact with Google Drive links)
-- Docker (Containerization for easy deployment and environment consistency)
-- Google Cloud Platform (Cloud Run or similar service for hosting and deployment)
-- Git and GitHub (Version control and code repository management)
+- Python 3  (Core programming language)
+- FastAPI  (Web framework for API development)
+- Cryptography  (Fernet symmetric Encryption/Decryption)
+- Jinja2  (Template engine for rendering HTML pages)
+- Uvicorn  (ASGI server for running FastAPI locally and in production)
+- Google OAuth 2.0  (Authentication and authorization)
+- Google Drive API  (To validate and interact with Google Drive links)
+- Docker  (Containerization deployment and environment consistency)
+- Google Cloud Platform  (Cloud Run for deployment)
+- Git and GitHub  (Version control and code repository management)
 
 ---
 
