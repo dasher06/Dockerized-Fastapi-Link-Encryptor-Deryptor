@@ -11,17 +11,17 @@ For the **Flask** version you can visit:
 
 ## What Happens in the Project ?
 
-1. You take a **Google Drive file link** and encrypt it with a **10-digit password**.
+- You take a **Google Drive file link** and encrypt it with a **10-digit password**.
 
-2. The app generates a secure **encrypted string** representing your original link.
+- The app generates a secure **encrypted string** representing your original link.
 
-3. You share the **encrypted string** via a **URL** through any communication channel.
+- You share the **encrypted string** via a **URL** through any communication channel.
 
-4. The recipient opens the **decryption page** to input the encrypted string and password.
+- The recipient opens the **decryption page** to input the encrypted string and password.
 
-5. If the password is correct, the original **Google Drive link** is instantly revealed.
+- If the password is correct, the original **Google Drive link** is instantly revealed.
 
-6. The app runs as a containerized **FastAPI** service for scalability and **cloud deployment**.
+- The app runs as a containerized **FastAPI** service for scalability and **cloud deployment**.
 
 
 ---
